@@ -2,11 +2,11 @@ import socket
 import select
 from thread import *
 import sys
-import pickle
+import demo_mysql
 
-filename = "users.txt"
-file1 = open(filename, 'rb')
-allowedUsers = pickle.load(file1)
+# filename = "users.txt"
+# file1 = open(filename, 'rb')
+# allowedUsers = pickle.load(file1)
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,14 +67,15 @@ while True:
     client, addr = server.accept()
     clientUserInfo = client.recv(15)
 
-    filename = "users.txt"
-    file1 = open(filename, 'rb')
-    allowedUsers = pickle.load(file1)
+    # filename = "users.txt"
+    # file1 = open(filename, 'rb')
+    # allowedUsers = pickle.load(file1)
 
     clientUserID, clientPwd = clientUserInfo.split()
-    validUser = True
+    validUser = demo_mysql.verification(clientUserID,clientPwd)
 
-    if clientUserID not in allowedUsers:
+    # if clientUserID not in allowedUsers:
+    if not validUser:
         client.send('404')
         validUser = False
         print 'Unauthorised user: ' + clientUserID + ', tried to login'
@@ -83,11 +84,11 @@ while True:
         except Exception as e:
             continue
     
-    if clientPwd != allowedUsers[clientUserID]:
-        client.send('405')
-        validUser = False
-        print 'Unauthorised user: ' + clientUserID + ', tried to login'
-        client.close()
+    # if clientPwd != allowedUsers[clientUserID]:
+    #     client.send('405')
+    #     validUser = False
+    #     print 'Unauthorised user: ' + clientUserID + ', tried to login'
+    #     client.close()
 
     # for userID in allowedUsers
     # #if clientPwd != allowedUsers[clientUserID]:

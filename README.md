@@ -10,7 +10,7 @@ python2 client.py <server's ip address> 8088
 
 # admin Run
 python2 admin.py
-#then enter "admin" and "password"
+#then enter "Admin" and "password"
 #need to quit admin.py program for the change to take effect. But Server doesn't have to stop.
 
 # run pickleData.py
